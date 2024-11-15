@@ -1,10 +1,11 @@
+
 //unit8.hw
 //Group members: Katie Kwatinetz, Lanaiya Walters, Jimmy Winchester
 
 
 #include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
 
 struct employee
 {
@@ -30,7 +31,7 @@ returns the sum of the ascii codes of the letters of name.
 
 
 //1.
-void printEmployee ( struct employee );
+void printEmployee ( struct employee e);
 /*
 prints an employee in the format [id,name,net salary], where:
 Net salary = salary*0.91 + (numberOfDependent *0.01*salary)
@@ -71,14 +72,27 @@ returns the highest net salary.
 int getId ( char * name )
 {
     printf ("COMING UP\n");
-    return 0;
+
+    int total = 0;
+    int i;
+
+    for(i = 0; name[i] != '\0'; i++){
+        total += name[i];
+    }
+    
+    return total;
 }
 
 
 //1.
-void printEmployee (struct employee )
+void printEmployee (struct employee e)
 {
     printf ("COMING UP\n");
+
+    float netSal = e.salary * 0.91 + (e.numberOfDependents * 0.01 * e.salary);
+
+    printf("[%d, %s, %f]", e.id, e.name, netSal);
+
 }
 
 
@@ -86,6 +100,12 @@ void printEmployee (struct employee )
 void printAllEmployees (struct employee * list)
 {
     printf ("COMING UP\n");
+
+    int i;
+
+    for (i = 0; i < sizeof(list) - 1; i++){
+        printEmployee(list[i]);
+    }
 }
 
 
