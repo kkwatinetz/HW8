@@ -2,7 +2,6 @@
 //unit8.hw
 //Group members: Katie Kwatinetz, Lanaiya Walters, Jimmy Winchester
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,10 +15,7 @@ struct employee
     //---------------------
     struct employee * next;
     struct employee * below;
-
 };
-
-
 
 //----------------------- FUNCTION PROTOTYPES ---------------------------
 
@@ -29,7 +25,6 @@ int getId ( char * name);
 returns the sum of the ascii codes of the letters of name.
 */
 
-
 //1.
 void printEmployee ( struct employee e);
 /*
@@ -38,7 +33,6 @@ Net salary = salary*0.91 + (numberOfDependent *0.01*salary)
 Examples: [562,AaBc xYz,1253.56] [562,bAac ZyX,6253.06]
 */
 
-
 //2.
 void printAllEmployees ( struct employee * list);
 /*
@@ -46,20 +40,17 @@ prints all employees in the list. Loops through list and calls
 printEmployee for each employee in list
 */
 
-
 //3.
 struct employee * addEmployee ( struct employee * list , struct employee e);
 /*
 adds e to list.
 */
 
-
 //4.
 int searchEmployee ( struct employee * list , char * name);
 /*
 returns 1 if name is found in list. Otherwise, it returns 0
 */
-
 
 //5.
 float highestNetSalary ( struct employee * list);
@@ -71,67 +62,86 @@ returns the highest net salary.
 //0.
 int getId ( char * name )
 {
-    printf ("COMING UP\n");
-
     int total = 0;
     int i;
 
     for(i = 0; name[i] != '\0'; i++){
         total += name[i];
     }
-    
+
     return total;
 }
-
 
 //1.
 void printEmployee (struct employee e)
 {
-    printf ("COMING UP\n");
-
     float netSal = e.salary * 0.91 + (e.numberOfDependents * 0.01 * e.salary);
-
     printf("[%d, %s, %f]", e.id, e.name, netSal);
-
 }
-
 
 //2.
 void printAllEmployees (struct employee * list)
 {
-    printf ("COMING UP\n");
-
-    int i;
-
-    for (i = 0; i < sizeof(list) - 1; i++){
-        printEmployee(list[i]);
+    while (list != NULL) {
+        printEmployee(*list); // Dereference pointer to pass struct
+        list = list->next;    // Move to the next node
     }
 }
-
 
 //3.
 struct employee * addEmployee (struct employee * list , struct employee e)
 {
-    printf ("COMING UP\n");
-    return list;
-}
+    struct employee *newEmployee = (struct employee *)malloc(sizeof(struct employee));
+    if (newEmployee == NULL)
+    {
+        printf("Memory allocation failed.\n");
+        return list;
+    }
 
+    newEmployee->id = e.id;
+    strcpy(newEmployee->name, e.name);
+    newEmployee->salary = e.salary;
+    newEmployee->numberOfDependents = e.numberOfDependents;
+    newEmployee->next = list;
+
+    return newEmployee; // Only one return
+}
 
 //4.
 int searchEmployee ( struct employee * list , char * name)
 {
-    printf ("COMING UP\n");
+    struct employee *current = list;
+
+    while (current != NULL)
+    {
+        if (strcmp(current->name, name) == 0)
+        {
+            return 1;
+        }
+        current = current->next;
+    }
+
     return 0;
 }
-
 
 //5.
 float highestNetSalary (struct employee * list)
 {
-    printf ("COMING UP\n");
-    return 0.0;
-}
+    struct employee *current = list;
+    float maxNetSalary = 0.0;
 
+    while (current != NULL)
+    {
+        float netSalary = current->salary * 0.91 + (current->numberOfDependents * 0.01 * current->salary);
+        if (netSalary > maxNetSalary)
+        {
+            maxNetSalary = netSalary;
+        }
+        current = current->next;
+    }
+
+    return maxNetSalary; // Single return
+}
 
 //DO NOT CHANGE ANYTHING IN main!!!!!!
 int main() {
@@ -168,3 +178,4 @@ int main() {
 
     return 0;
 }
+
