@@ -1,4 +1,5 @@
 
+
 //unit8.hw
 //Group members: Katie Kwatinetz, Lanaiya Walters, Jimmy Winchester
 
@@ -75,8 +76,14 @@ int getId ( char * name )
 //1.
 void printEmployee (struct employee e)
 {
+    int i;
+    char tempName[50];
+    
+    for (i = 0; i < 50 && e.name[i] != '\0'; i++){
+        if (e.name[i] == '\n') e.name[i] = '\0';
+    }
     float netSal = e.salary * 0.91 + (e.numberOfDependents * 0.01 * e.salary);
-    printf("[%d, %s, %f]", e.id, e.name, netSal);
+    printf("[%d, %s, %f]\n", e.id, e.name, netSal);
 }
 
 //2.
@@ -178,4 +185,3 @@ int main() {
 
     return 0;
 }
-
