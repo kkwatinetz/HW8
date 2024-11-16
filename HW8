@@ -1,7 +1,5 @@
-
-
 //unit8.hw
-//Group members: Katie Kwatinetz, Lanaiya Walters, Jimmy Winchester
+//Group members: Lanaiya Walters, Jimmy Winchester, Katie Kwatinetz
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,8 +64,16 @@ int getId ( char * name )
     int total = 0;
     int i;
 
-    for(i = 0; name[i] != '\0'; i++){
-        total += name[i];
+    for(i = 0; name[i] != '\0'; i++)
+    {
+        if (name[i] == ' ' || (name[i] >= 'A' && name[i] <= 'Z'))
+        {
+            total += name[i];
+        }
+        else if (name[i] >= 'a' && name[i] <= 'z')
+        {
+            total += toupper(name[i]);
+        }
     }
 
     return total;
@@ -78,7 +84,7 @@ void printEmployee (struct employee e)
 {
     int i;
     char tempName[50];
-    
+
     for (i = 0; i < 50 && e.name[i] != '\0'; i++){
         if (e.name[i] == '\n') e.name[i] = '\0';
     }
@@ -95,10 +101,12 @@ void printAllEmployees (struct employee * list)
     }
 }
 
-//3.
+//3. NOT ADDED PROPERLY
 struct employee * addEmployee (struct employee * list , struct employee e)
 {
     struct employee *newEmployee = (struct employee *)malloc(sizeof(struct employee));
+    *newEmployee = e; // Copy the data into the new node
+    newEmployee->next = newEmployee->below = NULL;
     if (newEmployee == NULL)
     {
         printf("Memory allocation failed.\n");
@@ -114,7 +122,7 @@ struct employee * addEmployee (struct employee * list , struct employee e)
     return newEmployee; // Only one return
 }
 
-//4.
+//4. DOESN'T SEARCH PROPERLY
 int searchEmployee ( struct employee * list , char * name)
 {
     struct employee *current = list;
