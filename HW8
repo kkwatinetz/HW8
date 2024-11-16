@@ -101,41 +101,66 @@ void printAllEmployees (struct employee * list)
     }
 }
 
-//3. NOT ADDED PROPERLY
-struct employee * addEmployee (struct employee * list , struct employee e)
+//3.
+struct employee* addEmployee(struct employee *list, struct employee e)
 {
-    struct employee *newEmployee = (struct employee *)malloc(sizeof(struct employee));
-    *newEmployee = e; // Copy the data into the new node
-    newEmployee->next = newEmployee->below = NULL;
-    if (newEmployee == NULL)
+    struct employee *newNode = (struct employee *)malloc(sizeof(struct employee));
+    *newNode = e;
+    newNode->next = newNode->below = NULL;
+
+    if (!list)
     {
-        printf("Memory allocation failed.\n");
-        return list;
+        return newNode; // First employee
     }
 
-    newEmployee->id = e.id;
-    strcpy(newEmployee->name, e.name);
-    newEmployee->salary = e.salary;
-    newEmployee->numberOfDependents = e.numberOfDependents;
-    newEmployee->next = list;
-
-    return newEmployee; // Only one return
-}
-
-//4. DOESN'T SEARCH PROPERLY
-int searchEmployee ( struct employee * list , char * name)
-{
     struct employee *current = list;
-
-    while (current != NULL)
+    while (current)
     {
-        if (strcmp(current->name, name) == 0)
+        if (current->id == e.id)
         {
-            return 1;
+            // Add vertically
+            while (current->below) current = current->below;
+            current->below = newNode;
+            return list;
+        }
+        if (!current->next)
+        {
+            break;
         }
         current = current->next;
     }
+    // Add horizontally
+    current->next = newNode;
+    return list;
+}
 
+//4.
+int searchEmployee(struct employee* list, char* name)
+{
+    struct employee* current = list; // Start at the head of the list
+
+    //horizontal search
+    while (current)
+    {
+        struct employee* vertical = current; // Start at the current horizontal node
+
+        // vertical search for the current horizontal node
+        while (vertical)
+        {
+            if (strcmp(vertical->name, name) == 0)
+            {
+                // Match found
+                printf("Found\n");
+                return 1;
+            }
+            vertical = vertical->below; // Move down the vertical chain
+        }
+
+        current = current->next; // Move to the next horizontal node
+    }
+
+    // If no match is found
+    printf("Not Found\n");
     return 0;
 }
 
@@ -159,6 +184,7 @@ float highestNetSalary (struct employee * list)
 }
 
 //DO NOT CHANGE ANYTHING IN main!!!!!!
+
 int main() {
     struct employee * company = NULL , tempEmployee;
     int tempInt = 0;
