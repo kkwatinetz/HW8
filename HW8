@@ -93,38 +93,39 @@ void printEmployee (struct employee e)
 }
 
 //2.
-void printAllEmployees (struct employee * list)
-{
+void printAllEmployees(struct employee* list) {
     while (list != NULL) {
-        printEmployee(*list); // Dereference pointer to pass struct
-        list = list->next;    // Move to the next node
+        struct employee* vertical = list;
+        while (vertical != NULL) {
+            printEmployee(*vertical); // Print each node in the vertical chain
+            vertical = vertical->below;
+        }
+        list = list->next; // Move to the next horizontal node
     }
 }
 
 //3.
-struct employee* addEmployee(struct employee *list, struct employee e)
-{
-    struct employee *newNode = (struct employee *)malloc(sizeof(struct employee));
+struct employee* addEmployee(struct employee* list, struct employee e) {
+    struct employee* newNode = (struct employee*)malloc(sizeof(struct employee));
     *newNode = e;
     newNode->next = newNode->below = NULL;
 
-    if (!list)
-    {
+    if (!list) {
         return newNode; // First employee
     }
 
-    struct employee *current = list;
-    while (current)
-    {
-        if (current->id == e.id)
-        {
+    struct employee* current = list;
+    while (current) {
+        if (current->id == e.id) {
             // Add vertically
-            while (current->below) current = current->below;
-            current->below = newNode;
+            struct employee* vertical = current;
+            while (vertical->below) {
+                vertical = vertical->below;
+            }
+            vertical->below = newNode;
             return list;
         }
-        if (!current->next)
-        {
+        if (!current->next) {
             break;
         }
         current = current->next;
@@ -163,6 +164,7 @@ int searchEmployee(struct employee* list, char* name)
     printf("Not Found\n");
     return 0;
 }
+
 
 //5.
 float highestNetSalary (struct employee * list)
