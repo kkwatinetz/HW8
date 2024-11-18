@@ -85,7 +85,8 @@ void printEmployee (struct employee e)
     int i;
     char tempName[50];
 
-    for (i = 0; i < 50 && e.name[i] != '\0'; i++){
+    for (i = 0; i < 50 && e.name[i] != '\0'; i++)
+    {
         if (e.name[i] == '\n') e.name[i] = '\0';
     }
     float netSal = e.salary * 0.91 + (e.numberOfDependents * 0.01 * e.salary);
@@ -93,10 +94,13 @@ void printEmployee (struct employee e)
 }
 
 //2.
-void printAllEmployees(struct employee* list) {
-    while (list != NULL) {
+void printAllEmployees(struct employee* list) 
+{
+    while (list != NULL) 
+    {
         struct employee* vertical = list;
-        while (vertical != NULL) {
+        while (vertical != NULL)
+        {
             printEmployee(*vertical); // Print each node in the vertical chain
             vertical = vertical->below;
         }
@@ -105,33 +109,41 @@ void printAllEmployees(struct employee* list) {
 }
 
 //3.
-struct employee* addEmployee(struct employee* list, struct employee e) {
-    struct employee* newNode = (struct employee*)malloc(sizeof(struct employee));
-    *newNode = e;
-    newNode->next = newNode->below = NULL;
+struct employee* addEmployee(struct employee* list, struct employee e)
+{
+    struct employee* newEmployee = (struct employee*)malloc(sizeof(struct employee));
+    
+    *newEmployee = e;
+    newEmployee->next = newEmployee->below = NULL;
 
-    if (!list) {
-        return newNode; // First employee
+    if (list==NULL) 
+    {
+        return newEmployee; // First employee
     }
 
     struct employee* current = list;
-    while (current) {
-        if (current->id == e.id) {
+    
+    while (current) 
+    {
+        if (current->id == e.id) 
+        {
             // Add vertically
             struct employee* vertical = current;
-            while (vertical->below) {
+            while (vertical->below) 
+            {
                 vertical = vertical->below;
             }
-            vertical->below = newNode;
+            vertical->below = newEmployee;
             return list;
         }
-        if (!current->next) {
+        if (!current->next) 
+        {
             break;
         }
         current = current->next;
     }
     // Add horizontally
-    current->next = newNode;
+    current->next = newEmployee;
     return list;
 }
 
@@ -216,8 +228,14 @@ int main() {
 
     tempInt = searchEmployee ( company , tempName) ;
 
-    if ( tempInt == 1 ) printf ("%s is found!\n", tempName);
-    else printf ("%s is NOT found!\n", tempName);
+    if ( tempInt == 1 )
+    {
+        printf ("%s is found!\n", tempName);
+    }
+    else
+    {
+        printf ("%s is NOT found!\n", tempName);
+    }
 
     return 0;
 }
